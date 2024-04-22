@@ -11,6 +11,9 @@ public class Lexical {
     String caracteres = "[a-zA-Z]";
     String variaveis = "([a-zA-Z]*[0-9]*)+";
 
+    //Variaveis de controle
+    boolean jaEncontrado = false; //Verificador se a variavel possui um valor vazio atribuido a ele e contem somente o nome
+
     //Estruturas que contem os dados do lexico
     ArrayList<ArrayList> lexico = new ArrayList<ArrayList>();
     ArrayList<Object> dadosLexico = new ArrayList<Object>();
@@ -18,8 +21,16 @@ public class Lexical {
 
     //Fazendo a verificação do nome atribuido a variavel
     public void verificarNomeVariavel(String[] arr){
-        if(arr[1].matches(variaveis)){ dadosLexico.add(arr[1]); }//Nome da Variavel inserida
-        else{ System.out.println("Erro lexico encontrado. " + arr[1] + " nao e um nome valido de variavel"); }
+        if (arr[1].indexOf(';') != -1) {
+            arr[1] = arr[1].replace(";", "");
+            jaEncontrado = true;
+        }
+        if (arr[1].matches(variaveis)) {
+            dadosLexico.add(arr[1]);
+        }//Nome da Variavel inserida
+        else {
+            System.out.println("Erro lexico encontrado. " + arr[1] + " nao e um nome valido de variavel");
+        }
     }
 
     //Mostra a lista com todos os tokens atuais
@@ -46,79 +57,88 @@ public class Lexical {
 
             verificarNomeVariavel(arrOfStr);
 
-            if(arrOfStr[2].indexOf(';') != -1){
-                arrOfStr[2] = arrOfStr[2].replace(";", "");
-                //Tratamento caso o valor atribuido seja vazio
-                try {
-                    //Removendo sinais que não servem como tokens
-                    arrOfStr[2] = arrOfStr[2].replace("= ", "");
-                    //Fazendo a verificação do valor atribuido a variavel
-                    if (arrOfStr[2].matches(numeros)) {
-                        dadosLexico.add(arrOfStr[2]);
-                    } //Valor da Variavel inserida
-                    else {
-                        System.out.println("Erro lexico encontrado. " + arrOfStr[2] + " nao e um valor valido para varI");
+            //Verificação do valor atribuido a variavel em seu respectivo tipo
+            if(!jaEncontrado) {
+                if (arrOfStr[2].indexOf(';') != -1) {
+                    arrOfStr[2] = arrOfStr[2].replace(";", "");
+                    //Tratamento caso o valor atribuido seja vazio
+                    try {
+                        //Removendo sinais que não servem como tokens
+                        arrOfStr[2] = arrOfStr[2].replace("= ", "");
+                        //Fazendo a verificação do valor atribuido a variavel
+                        if (arrOfStr[2].matches(numeros)) {
+                            dadosLexico.add(arrOfStr[2]);
+                        } //Valor da Variavel inserida
+                        else {
+                            System.out.println("Erro lexico encontrado. " + arrOfStr[2] + " nao e um valor valido para varI");
+                        }
+                    } catch (Exception e) {
+                        dadosLexico.add(tipos.NULO);
                     }
-                }catch (Exception e){
-                    dadosLexico.add(tipos.VAZIO);
+                    dadosLexico.add(tipos.EOI);
+                } else {
+                    System.out.println("Erro lexico encontrado. Não foi encontrado um EOI ';' na instrução");
                 }
-                dadosLexico.add(tipos.EOI);
-            }else{
-                System.out.println("Erro lexico encontrado. Não foi encontrado um EOI ';' na instrução");
-            }
+            }else{ dadosLexico.add(tipos.NULO); dadosLexico.add(tipos.EOI); }
         }else if(arrOfStr[0].equals("varC")){
             dadosLexico.add(tipos.CHAR); //Tipo da Variavel inserida (char)
 
             verificarNomeVariavel(arrOfStr);
 
-            if(arrOfStr[2].indexOf(';') != -1){
-                arrOfStr[2] = arrOfStr[2].replace(";", "");
-                //Tratamento caso o valor atribuido seja vazio
-                try {
-                    //Removendo sinais que não servem como tokens
-                    arrOfStr[2] = arrOfStr[2].replace("= ", "");
-                    //Fazendo a verificação do valor atribuido a variavel
-                    if (arrOfStr[2].matches(caracteres)) {
-                        dadosLexico.add(arrOfStr[2]);
-                    } //Valor da Variavel inserida
-                    else {
-                        System.out.println("Erro lexico encontrado. " + arrOfStr[2] + " nao e um valor valido para varC");
+            //Verificação do valor atribuido a variavel em seu respectivo tipo
+            if(!jaEncontrado) {
+                if (arrOfStr[2].indexOf(';') != -1) {
+                    arrOfStr[2] = arrOfStr[2].replace(";", "");
+                    //Tratamento caso o valor atribuido seja vazio
+                    try {
+                        //Removendo sinais que não servem como tokens
+                        arrOfStr[2] = arrOfStr[2].replace("= ", "");
+                        //Fazendo a verificação do valor atribuido a variavel
+                        if (arrOfStr[2].matches(caracteres)) {
+                            dadosLexico.add(arrOfStr[2]);
+                        } //Valor da Variavel inserida
+                        else {
+                            System.out.println("Erro lexico encontrado. " + arrOfStr[2] + " nao e um valor valido para varC");
+                        }
+                    } catch (Exception e) {
+                        dadosLexico.add(tipos.NULO);
                     }
-                }catch (Exception e){
-                    dadosLexico.add(tipos.VAZIO);
+                    dadosLexico.add(tipos.EOI);
+                } else {
+                    System.out.println("Erro lexico encontrado. Não foi encontrado um EOI ';' na instrução");
                 }
-                dadosLexico.add(tipos.EOI);
-            }else{
-                System.out.println("Erro lexico encontrado. Não foi encontrado um EOI ';' na instrução");
-            }
+            }else{ dadosLexico.add(tipos.NULO); dadosLexico.add(tipos.EOI); }
         }else if(arrOfStr[0].equals("varB")) {
             dadosLexico.add(tipos.BOOL); //Tipo da Variavel inserida (boolean)
 
             verificarNomeVariavel(arrOfStr);
 
-            if(arrOfStr[2].indexOf(';') != -1){
-                arrOfStr[2] = arrOfStr[2].replace(";", "");
-                //Tratamento caso o valor atribuido seja vazio
-                try {
-                    //Removendo sinais que não servem como tokens
-                    arrOfStr[2] = arrOfStr[2].replace("= ", "");
-                    //Fazendo a verificação do valor atribuido a variavel
-                    if (arrOfStr[2].matches(letras) && (arrOfStr[2].equals("true") || arrOfStr[2].equals("false"))) {
-                        dadosLexico.add(arrOfStr[2]);
-                    } else {
-                        System.out.println("Erro lexico encontrado. " + arrOfStr[2] + " nao e um valor valido para varB");
+            //Verificação do valor atribuido a variavel em seu respectivo tipo
+            if(!jaEncontrado) {
+                if (arrOfStr[2].indexOf(';') != -1) {
+                    arrOfStr[2] = arrOfStr[2].replace(";", "");
+                    //Tratamento caso o valor atribuido seja vazio
+                    try {
+                        //Removendo sinais que não servem como tokens
+                        arrOfStr[2] = arrOfStr[2].replace("= ", "");
+                        //Fazendo a verificação do valor atribuido a variavel
+                        if (arrOfStr[2].matches(letras) && (arrOfStr[2].equals("true") || arrOfStr[2].equals("false"))) {
+                            dadosLexico.add(arrOfStr[2]);
+                        } else {
+                            System.out.println("Erro lexico encontrado. " + arrOfStr[2] + " nao e um valor valido para varB");
+                        }
+                    } catch (Exception e) {
+                        dadosLexico.add(tipos.NULO);
                     }
-                }catch (Exception e){
-                    dadosLexico.add(tipos.VAZIO);
+                    dadosLexico.add(tipos.EOI);
+                } else {
+                    System.out.println("Erro lexico encontrado. Não foi encontrado um EOI ';' na instrução");
                 }
-                dadosLexico.add(tipos.EOI);
-            }else{
-                System.out.println("Erro lexico encontrado. Não foi encontrado um EOI ';' na instrução");
-            }
+            }else{ dadosLexico.add(tipos.NULO); dadosLexico.add(tipos.EOI); }
         }
 
         //Calculo dos tokens caso tenha ou não tenha um valor atribuido a ele
-        if(dadosLexico.get(2) == tipos.VAZIO){
+        if(dadosLexico.get(2) == tipos.NULO){
             int tam = dadosLexico.size() - 1; //Não contabiliza o token caso a variável não tenha valor atribuido
             finalLexico.add("tokens = " + tam);
             finalLexico.add(tipos.EOF);

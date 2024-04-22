@@ -12,5 +12,5 @@ public enum tipos {
     INTEGER, //Para valores do tipo inteiro
     BOOL, //Para valores do tipo booleano
     CHAR, //Para valores do tipo caracter
-    VAZIO //Para quando não atribuir nenhum valor a variavel
+    NULO //Para quando não atribuir nenhum valor a variavel
 }
