@@ -7,7 +7,7 @@ public class Main{
         Lexical lex = new Lexical();
 
         Scanner leitor = new Scanner(System.in);
-        System.out.println("<Compilador Fenix> ");
+        System.out.print("<Compilador Fenix> ");
 
         String frase = leitor.nextLine();
 
