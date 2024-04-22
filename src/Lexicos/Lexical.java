@@ -15,19 +15,14 @@ public class Lexical {
     boolean jaEncontrado = false; //Verificador se a variavel possui um valor vazio atribuido a ele e contem somente o nome
     boolean invalidName = false; //Verificador se alguma anormalidade de nomeclatura ocorreu
 
-    //Estruturas que contem os dados do lexico
-    ArrayList<ArrayList> lexico = new ArrayList<ArrayList>();
-    ArrayList<Object> dadosLexico = new ArrayList<Object>();
-    ArrayList<Object> finalLexico = new ArrayList<Object>();
-
     //Fazendo a verificação do nome atribuido a variavel
-    public void verificarNomeVariavel(String[] arr){
+    public void verificarNomeVariavel(String[] arr, ArrayList<Object> data){
         if (arr[1].indexOf(';') != -1) {
             arr[1] = arr[1].replace(";", "");
             jaEncontrado = true;
         }
         if (arr[1].matches(variaveis) && (!arr[1].equals("varI") && !arr[1].equals("varC")  && !arr[1].equals("varB"))) {
-            dadosLexico.add(arr[1]);
+            data.add(arr[1]);
         }//Nome da Variavel inserida
         else {
             invalidName = true;
@@ -47,6 +42,12 @@ public class Lexical {
 
     //Analisa a estrutura lexica inserida
     public ArrayList leituraLexico(String frase){
+
+        //Estruturas que contem os dados do lexico
+        ArrayList<ArrayList> lexico = new ArrayList<ArrayList>();
+        ArrayList<Object> dadosLexico = new ArrayList<Object>();
+        ArrayList<Object> finalLexico = new ArrayList<Object>();
+
         String[] arrOfStr = {};
         try{
             arrOfStr = frase.split(" ", 3);
@@ -57,7 +58,7 @@ public class Lexical {
         if(arrOfStr[0].equals("varI")){
             dadosLexico.add(tipos.INTEGER); //Tipo da Variavel inserida (int)
 
-            verificarNomeVariavel(arrOfStr);
+            verificarNomeVariavel(arrOfStr, dadosLexico);
 
             //Verificação do valor atribuido a variavel em seu respectivo tipo
             if(!jaEncontrado && !invalidName) {
@@ -87,7 +88,7 @@ public class Lexical {
         }else if(arrOfStr[0].equals("varC")){
             dadosLexico.add(tipos.CHAR); //Tipo da Variavel inserida (char)
 
-            verificarNomeVariavel(arrOfStr);
+            verificarNomeVariavel(arrOfStr, dadosLexico);
 
             //Verificação do valor atribuido a variavel em seu respectivo tipo
             if(!jaEncontrado && !invalidName) {
@@ -117,7 +118,7 @@ public class Lexical {
         }else if(arrOfStr[0].equals("varB")) {
             dadosLexico.add(tipos.BOOL); //Tipo da Variavel inserida (boolean)
 
-            verificarNomeVariavel(arrOfStr);
+            verificarNomeVariavel(arrOfStr, dadosLexico);
 
             //Verificação do valor atribuido a variavel em seu respectivo tipo
             if(!jaEncontrado && !invalidName) {

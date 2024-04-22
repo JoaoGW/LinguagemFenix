@@ -1,42 +1,48 @@
 package BinaryTree;
 
 public class Nos {
-    static class No
-    {
-        No esq;
-        No dir;
-        int valor;
 
-        public No(int value)
-        {
-            this.valor = value;
-        }
+    int valor;
+    char tipo;
+    int id;
+    Nos esq;
+    Nos dir;
+
+    // CONSTRUTOR
+    public Nos(char tipoR)
+    {
+        tipo = tipoR;
     }
 
-    public void inserirNo(No no, int value)
-    {
-        if (value < no.valor)
-        {
-            if (no.esq != null)
-            {
-                inserirNo(no.esq, value);
-            } else
-            {
-                System.out.println("Inserido o valor: " + value + " a esquerda do no" + no.valor);
-                no.esq = new No(value);
-            }
-        }
-        else if (value > no.valor)
-        {
-            if (no.dir != null)
-            {
-                inserirNo(no.dir, value);
-            } else
-            {
-                System.out.println("Inserido o valor: " + value + " a direita do no" + no.valor);
-                no.dir = new No(value);
-            }
-        }
+    // SETTERS
+    public void setEsq(Nos sla){
+        this.esq = sla;
+    }
+    public void setDir(Nos sla){
+        this.dir = sla;
+    }
+    public void setValor(int sla){
+        this.valor = sla;
+    }
+    public void setId(int sla){
+        this.id = sla;
+    }
+
+    // GETTERS
+    public Nos getEsq(){
+        return this.esq;
+    }
+    public Nos getDir(){
+        return this.dir;
+    }
+    public char getTipo(){
+        return this.tipo;
+    }
+    public int getValor(){
+        return this.valor;
+    }
+
+    public int getId(){
+        return this.id;
     }
 }
-
