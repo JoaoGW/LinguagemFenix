@@ -31,7 +31,7 @@ public class Arvore {
                 arrayNos[j] = novo;
                 j++;
                 i--;
-                System.out.println("Criado no[" + (j-1) + "] numerico de valor " + valor);
+                //System.out.println("Criado no[" + (j-1) + "] numerico de valor " + valor);
             }
             // se for operador
             else if (sRec.charAt(i) == '*' || sRec.charAt(i) == '/' || sRec.charAt(i) == '+' || sRec.charAt(i) == '-'){
@@ -40,8 +40,9 @@ public class Arvore {
                 novo.setId(j);
                 arrayNos[j] = novo;
                 j++;
-                System.out.println("Criado no[" + (j-1) + "] do tipo " + sRec.charAt(i) + "");
+                //System.out.println("Criado no[" + (j-1) + "] do tipo " + sRec.charAt(i) + "");
             }
+            else if (sRec.charAt(i) == ';'){}
             // se n for nenhum deles
             else{
                 System.out.println("VALOR " + sRec.charAt(i) + " NAO EH VALIDO");

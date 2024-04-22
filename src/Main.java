@@ -30,8 +30,8 @@ public class Main{
 
                     //Pega o resultado do sintático e o substitui no lexema para fazer uma instrução adequada para os tokens
                     int resultado = av.getResultado();
-                    afterEqual[1].replace(afterEqual[1], Integer.toString(resultado));
-                    frase = afterEqual[0] + afterEqual[1];
+                    afterEqual[1] = afterEqual[1].replace(afterEqual[1], Integer.toString(resultado));
+                    frase = afterEqual[0] + " " + afterEqual[1] + ";";
 
                     //Faz a leitura léxica já pronta no sintático e gera seus tokens
                     lex.leituraLexico(frase);
