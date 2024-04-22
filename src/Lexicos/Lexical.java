@@ -13,6 +13,7 @@ public class Lexical {
 
     //Variaveis de controle
     boolean jaEncontrado = false; //Verificador se a variavel possui um valor vazio atribuido a ele e contem somente o nome
+    boolean invalidName = false; //Verificador se alguma anormalidade de nomeclatura ocorreu
 
     //Estruturas que contem os dados do lexico
     ArrayList<ArrayList> lexico = new ArrayList<ArrayList>();
@@ -25,10 +26,11 @@ public class Lexical {
             arr[1] = arr[1].replace(";", "");
             jaEncontrado = true;
         }
-        if (arr[1].matches(variaveis)) {
+        if (arr[1].matches(variaveis) && (!arr[1].equals("varI") && !arr[1].equals("varC")  && !arr[1].equals("varB"))) {
             dadosLexico.add(arr[1]);
         }//Nome da Variavel inserida
         else {
+            invalidName = true;
             System.out.println("Erro lexico encontrado. " + arr[1] + " nao e um nome valido de variavel");
         }
     }
@@ -58,7 +60,7 @@ public class Lexical {
             verificarNomeVariavel(arrOfStr);
 
             //Verificação do valor atribuido a variavel em seu respectivo tipo
-            if(!jaEncontrado) {
+            if(!jaEncontrado && !invalidName) {
                 if (arrOfStr[2].indexOf(';') != -1) {
                     arrOfStr[2] = arrOfStr[2].replace(";", "");
                     //Tratamento caso o valor atribuido seja vazio
@@ -79,14 +81,16 @@ public class Lexical {
                 } else {
                     System.out.println("Erro lexico encontrado. Não foi encontrado um EOI ';' na instrução");
                 }
-            }else{ dadosLexico.add(tipos.NULO); dadosLexico.add(tipos.EOI); }
+            }else{
+                if(!invalidName){ dadosLexico.add(tipos.NULO); dadosLexico.add(tipos.EOI); }
+            }
         }else if(arrOfStr[0].equals("varC")){
             dadosLexico.add(tipos.CHAR); //Tipo da Variavel inserida (char)
 
             verificarNomeVariavel(arrOfStr);
 
             //Verificação do valor atribuido a variavel em seu respectivo tipo
-            if(!jaEncontrado) {
+            if(!jaEncontrado && !invalidName) {
                 if (arrOfStr[2].indexOf(';') != -1) {
                     arrOfStr[2] = arrOfStr[2].replace(";", "");
                     //Tratamento caso o valor atribuido seja vazio
@@ -107,14 +111,16 @@ public class Lexical {
                 } else {
                     System.out.println("Erro lexico encontrado. Não foi encontrado um EOI ';' na instrução");
                 }
-            }else{ dadosLexico.add(tipos.NULO); dadosLexico.add(tipos.EOI); }
+            }else{
+                    if(!invalidName){ dadosLexico.add(tipos.NULO); dadosLexico.add(tipos.EOI); }
+                }
         }else if(arrOfStr[0].equals("varB")) {
             dadosLexico.add(tipos.BOOL); //Tipo da Variavel inserida (boolean)
 
             verificarNomeVariavel(arrOfStr);
 
             //Verificação do valor atribuido a variavel em seu respectivo tipo
-            if(!jaEncontrado) {
+            if(!jaEncontrado && !invalidName) {
                 if (arrOfStr[2].indexOf(';') != -1) {
                     arrOfStr[2] = arrOfStr[2].replace(";", "");
                     //Tratamento caso o valor atribuido seja vazio
@@ -134,7 +140,9 @@ public class Lexical {
                 } else {
                     System.out.println("Erro lexico encontrado. Não foi encontrado um EOI ';' na instrução");
                 }
-            }else{ dadosLexico.add(tipos.NULO); dadosLexico.add(tipos.EOI); }
+            }else{
+                if(!invalidName){ dadosLexico.add(tipos.NULO); dadosLexico.add(tipos.EOI); }
+            }
         }
 
         //Calculo dos tokens caso tenha ou não tenha um valor atribuido a ele
@@ -150,6 +158,9 @@ public class Lexical {
         //Adiciona a lista de tokens e as informacoes estruturais a estrutura de armazenamento de compilação
         lexico.add(dadosLexico);
         lexico.add(finalLexico);
+
+        //Exibição do resultado desejado
+        System.out.println("$Fenix => " + dadosLexico.get(1) + " = " + dadosLexico.get(2));
 
         mostrarTokens(lexico);
 
