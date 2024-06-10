@@ -1,21 +1,23 @@
-package BinaryTree;
+package Semantica;
 
-public class Arvore {
+import Arvore.No;
 
-    Nos raiz;
+public class AcaoSemantica {
+
+    No raiz;
 
     // CONSTRUTOR
-    public Arvore(String sRec){
+    public AcaoSemantica(String sRec){
 
-        // passa tds os chars pra um array de Nos
-        // se for Mais, Menos, Mult, Div
+        // passa tds os chars pra um array de No
+        // se for Mais, MeNo, Mult, Div
         //      pega No anterior e posterior e passa como Esq Dir
         //
 
-        Nos[] arrayNos = new Nos[50];
+        No[] arrayNo = new No[50];
         int j=0;
 
-        // PASSA TUDO PRA NOS
+        // PASSA TUDO PRA No
         for(int i=0; i < sRec.length(); i++){
             int valor = 0;
             // se for numerico
@@ -25,10 +27,10 @@ public class Arvore {
                     valor = valor * 10 + sRec.charAt(i)-48;
                     i++;
                 }
-                Nos novo = new Nos('N');
+                No novo = new No('N');
                 novo.setValor(valor);
                 novo.setId(j);
-                arrayNos[j] = novo;
+                arrayNo[j] = novo;
                 j++;
                 i--;
                 //System.out.println("Criado no[" + (j-1) + "] numerico de valor " + valor);
@@ -36,9 +38,9 @@ public class Arvore {
             // se for operador
             else if (sRec.charAt(i) == '*' || sRec.charAt(i) == '/' || sRec.charAt(i) == '+' || sRec.charAt(i) == '-'){
 
-                Nos novo = new Nos(sRec.charAt(i));
+                No novo = new No(sRec.charAt(i));
                 novo.setId(j);
-                arrayNos[j] = novo;
+                arrayNo[j] = novo;
                 j++;
                 //System.out.println("Criado no[" + (j-1) + "] do tipo " + sRec.charAt(i) + "");
             }
@@ -51,55 +53,55 @@ public class Arvore {
 
 
         // ASSOCIA OS VALORES DA ESQ E DA DIREITA DAS MULT E DIVIS
-        for(int i=0; arrayNos[i] != null; i++){
-            if(arrayNos[i].getTipo() == '*' || arrayNos[i].getTipo() == '/' ){
+        for(int i=0; arrayNo[i] != null; i++){
+            if(arrayNo[i].getTipo() == '*' || arrayNo[i].getTipo() == '/' ){
                 // define o valor desse No
-                if (arrayNos[i].getTipo() == '*'){
-                    arrayNos[i].valor = arrayNos[i-1].getValor() * arrayNos[i+1].getValor();
+                if (arrayNo[i].getTipo() == '*'){
+                    arrayNo[i].setValor(arrayNo[i-1].getValor() * arrayNo[i+1].getValor());
                 } else{
-                    arrayNos[i].valor = arrayNos[i-1].getValor() / arrayNos[i+1].getValor();
+                    arrayNo[i].setValor(arrayNo[i-1].getValor() / arrayNo[i+1].getValor());
                 }
                 // associa os valores da esq e dir
-                arrayNos[i].setEsq(arrayNos[i-1]);
-                arrayNos[i].setDir(arrayNos[i+1]);
+                arrayNo[i].setEsq(arrayNo[i-1]);
+                arrayNo[i].setDir(arrayNo[i+1]);
                 // tira o No esq e dir do array e move todo o restante array 2 pra esq
-                arrayNos[i-1] = arrayNos[i];
+                arrayNo[i-1] = arrayNo[i];
                 int k=i;
-                while(arrayNos[k+2] == null){
-                    arrayNos[k] = arrayNos[k+2];
+                while(arrayNo[k+2] == null){
+                    arrayNo[k] = arrayNo[k+2];
                     k++;
                 }
             }
         }
 
         // ASSOCIA OS VALORES DA ESQ E DA DIREITA DAS SOMA E SUB
-        for(int i=0; arrayNos[i] != null; i++){
-            if(arrayNos[i].getTipo() == '+' || arrayNos[i].getTipo() == '-' ){
+        for(int i=0; arrayNo[i] != null; i++){
+            if(arrayNo[i].getTipo() == '+' || arrayNo[i].getTipo() == '-' ){
                 // define o valor desse No
-                if (arrayNos[i].getTipo() == '+'){
-                    arrayNos[i].valor = arrayNos[i-1].getValor() + arrayNos[i+1].getValor();
+                if (arrayNo[i].getTipo() == '+'){
+                    arrayNo[i].setValor(arrayNo[i-1].getValor() + arrayNo[i+1].getValor());
                 } else{
-                    arrayNos[i].valor = arrayNos[i-1].getValor() - arrayNos[i+1].getValor();
+                    arrayNo[i].setValor(arrayNo[i-1].getValor() - arrayNo[i+1].getValor());
                 }
                 // associa os valores da esq e dir
-                arrayNos[i].setEsq(arrayNos[i-1]);
-                arrayNos[i].setDir(arrayNos[i+1]);
+                arrayNo[i].setEsq(arrayNo[i-1]);
+                arrayNo[i].setDir(arrayNo[i+1]);
                 // tira o No esq e dir do array e move todo o restante array 2 pra esq
-                arrayNos[i-1] = arrayNos[i];
+                arrayNo[i-1] = arrayNo[i];
                 int k=i;
-                while(k < 48 && arrayNos[k+2] == null){
-                    arrayNos[k] = arrayNos[k+2];
+                while(k < 48 && arrayNo[k+2] == null){
+                    arrayNo[k] = arrayNo[k+2];
                     k++;
                 }
             }
         }
         // define qual o no raiz
-        raiz = arrayNos[0];
+        raiz = arrayNo[0];
     }
 
     // FAZ O PRINT DA ARVORE
     public void imprimeArvore(){
-        imprimeNos(raiz);
+        imprimeNo(raiz);
     }
 
     // RETORNA O RESULTADO FINAL
@@ -107,8 +109,8 @@ public class Arvore {
         return raiz.getValor();
     }
 
-    // FAZ O PRINT DOS NOS
-    public void imprimeNos(Nos temp){
+    // FAZ O PRINT DOS No
+    public void imprimeNo(No temp){
         System.out.println(' ');
         System.out.print("No[" + temp.getId() + "]: " + temp.getTipo() + " " + temp.getValor());
         // imprime no esq caso exista
@@ -118,14 +120,14 @@ public class Arvore {
         // imprime no dir caso exista
         if (temp.getDir() != null){
             System.out.print(" | Dir[" + temp.getDir().getId() + "]: " + temp.getDir().getTipo() + " " + temp.getDir().getValor());
-            imprimeNos(temp = temp.getDir());
+            imprimeNo(temp = temp.getDir());
         }
 
         if (temp.getEsq() != null){
-            imprimeNos(temp = temp.getEsq());
+            imprimeNo(temp = temp.getEsq());
         }
         if (temp.getDir() != null){
-            imprimeNos(temp = temp.getDir());
+            imprimeNo(temp = temp.getDir());
         }
 
 

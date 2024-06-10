@@ -1,13 +1,14 @@
-import java.util.Scanner;
-
 import Lexicos.Lexical;
-import BinaryTree.Arvore;
+import Lexicos.Tokens;
+import Semantica.AcaoSemantica;
+
+import java.util.Scanner;
 
 public class Main{
     public static void main(String[] args){
         //Instanciação de itens basicos para o funcionamento do compilador
         Lexical lex = new Lexical();
-        Arvore av;
+        AcaoSemantica av;
 
         boolean exitPrompt = false; //Finaliza o prompt e não aceita mais comandos de instruções no console de reprodução
 
@@ -23,15 +24,9 @@ public class Main{
                 if(frase.contains("+") || frase.contains("-") || frase.contains("*") || frase.contains("/")) {
                     //Prepara a String para receber uma equação e faz seu cálculo na regra do Sintático
                     String[] afterEqual = {};
-                    afterEqual = frase.split("(?<==)");
-                    afterEqual[1] = afterEqual[1].replaceAll(" ", "");
-                    System.out.println("Sobra: " + afterEqual[1]);
-                    av = new Arvore(afterEqual[1]);
+                    afterEqual = frase.split(":");
 
-                    //Pega o resultado do sintático e o substitui no lexema para fazer uma instrução adequada para os tokens
-                    int resultado = av.getResultado();
-                    afterEqual[1] = afterEqual[1].replace(afterEqual[1], Integer.toString(resultado));
-                    frase = afterEqual[0] + " " + afterEqual[1] + ";";
+                    afterEqual[1] = afterEqual[1].replaceAll(" ", "");
 
                     //Faz a leitura léxica já pronta no sintático e gera seus tokens
                     lex.leituraLexico(frase);
@@ -42,6 +37,7 @@ public class Main{
                     frase = leitor.nextLine();
                 }else{
                     lex.leituraLexico(frase);
+                    //System.out.println(lex.toString());
                     System.out.println();
                     System.out.print("<Compilador Fenix> ");
                     frase = leitor.nextLine();

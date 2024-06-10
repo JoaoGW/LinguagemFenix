@@ -3,10 +3,15 @@ package Lexicos;
 public enum tipos {
     //Tokens para estruturas arquiteturais
     EOF, //Para indicar o fim
-    IF, //Para indicar if
     EOI, //Para indicar ponto e vírgula
-    WHILE, //Para indicar o laço while
-    FOR, //Para indicar o laço for
+    DIG, //Para indicar que um número matemático foi recebido
+    MAIS, //Para indicar a presença de + em uma atribuição
+    MENOS, //Para indicar a presença de - em uma atribuição
+    VEZES, //Para indicar a presença de * em uma atribuição
+    DIVIDIDO, //Para indicar a presença de / em uma atribuição
+    TRUE, //Para indicar a presença de uma atribuição verídica a uma variavel ou condicao
+    FALSE, //Para indicar a presença de uma atribuição falsa a uma variavel ou condicao
+    CARACTER, //Para indicar que um caracter foi recebido
 
     //Tokens para tipos
     INTEGER, //Para valores do tipo inteiro
