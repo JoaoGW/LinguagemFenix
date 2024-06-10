@@ -189,8 +189,6 @@ public class Lexical {
             System.out.println("$Fenix => " + arrOfStr[1] + " = " + tipos.VAZIO);
         }
 
-        // as.criaArv(tkn.getDadosLexico());
-
         return tkn.getDadosLexico();
     }
 }

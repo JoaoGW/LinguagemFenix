@@ -7,8 +7,7 @@ public class No {
     int valor;
     char tipo;
     int id;
-    // No esq;
-    // No dir;
+
     No[] filho = new No[3];
 
 
@@ -25,13 +24,6 @@ public class No {
 
     }
 
-    // SETTERS
-    // public void setEsq(No valorRec){
-    //     this.esq = valorRec;
-    // }
-    // public void setDir(No valorRec){
-    //     this.dir = valorRec;
-    // }
     public void setValor(int valorRec){
         this.valor = valorRec;
     }
@@ -45,13 +37,6 @@ public class No {
         this.filho[n] = valorRec;
     }
 
-    // GETTERS
-    // public No getEsq(){
-    //     return this.esq;
-    // }
-    // public No getDir(){
-    //     return this.dir;
-    // }
     public char getTipo(){
         return this.tipo;
     }
