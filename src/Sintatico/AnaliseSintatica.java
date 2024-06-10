@@ -18,7 +18,7 @@ public class AnaliseSintatica {
         boolean asValida = true;
         for (int i = 0; i < tkn.size(); i++) {
             if (i % 2 == 0) {
-                // Se o token 0, 2, 4, 6... for DIG         5+5+3       + * 2 3 -
+                // Se o token 0, 2, 4, 6... for DIG
                 if (tkn.get(i) == tipos.DIG) {  
                     No filho = new No('I');
                     raiz.setFilho(filho, i);
